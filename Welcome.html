@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Baker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="welcome.css">
 </head>
 <body>
     <header>
@@ -13,8 +13,10 @@
     </header>
 
     <main>
-        <button onclick="Employees()">Edit Employees</button>
-
+        <h2>Summary</h2>
+        <button onclick="goToPage('calculate.html')">Calculate Tips</button>
+        <button onclick="goToPage('edit_employees.html')">Edit Employees</button>
+        <button onclick="goToPage('view_previous.html')">View Previous Payouts</button>
     </main>
 
     <footer>
