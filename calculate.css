@@ -54,9 +54,8 @@ button {
     margin-bottom: 20px;
 }
 main {
-    padding: None;
-    text-align: center;
-    margin-bottom: None;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 input[type="text"] {
@@ -70,10 +69,28 @@ input[type="text"] {
     margin-left: 10px; /* Add left margin to align with labels */
 }
 
+.employeeHours {
+    margin-bottom: 10px;
+}
+
+.employeeHours label {
+    display: inline-block;
+    width: 150px; /* Adjust as needed */
+}
+
+.employeeHours input {
+    width: 100px; /* Adjust as needed */
+}
+
 label {
     display: inline-block; /* Make labels display as inline-block elements */
     width: 150px; /* Set width to match input boxes */
     margin-bottom: 5px; /* Reduce bottom margin */
+}
+
+.submit-button {
+    margin-top: 20px;
+    padding: 5px 10px;
 }
 
 section {
