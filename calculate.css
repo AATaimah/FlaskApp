@@ -45,7 +45,7 @@ header {
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 20px;
-    position: fixed; /* Position the button relative to the viewport */
+    position: fixed !important; /* Position the button relative to the viewport */
     bottom: 50px; /* Distance from the bottom */
     right: 50px; /* Distance from the right */
 }
@@ -54,6 +54,7 @@ header {
     background-color: black;
     color: white;
 }
+
 
 .calculate {
     padding: 20px;
