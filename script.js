@@ -6,6 +6,18 @@ function goBack() {
     window.history.back();
 }
 
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    var scrollButton = document.getElementById("scrollButton");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollButton.style.display = "block";
+    } else {
+        scrollButton.style.display = "none";
+    }
+}
+
+
 // Declare netTips variable globally
 var netTips;
 

@@ -35,7 +35,7 @@ header {
     height: auto; /* Maintain aspect ratio */
 }
 
-.Button button {
+.Button button{
     margin: 10px;
     background-color: white;
     color: black;
@@ -45,7 +45,7 @@ header {
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 20px;
-    position: fixed !important; /* Position the button relative to the viewport */
+    position: fixed; /* Position the button relative to the viewport */
     bottom: 50px; /* Distance from the bottom */
     right: 50px; /* Distance from the right */
 }
