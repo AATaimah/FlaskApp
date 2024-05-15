@@ -1,3 +1,4 @@
+/* Reset some default browser styles */
 body, h1, h2, p, ul {
     margin: 0;
     padding: 0;
@@ -35,51 +36,27 @@ header {
     height: auto; /* Maintain aspect ratio */
 }
 
-.calculate {
-    padding: 20px;
-    text-align: left;
-    margin-bottom: 20px;
+button {
+    margin: 10px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 20px; 
 }
+
+button:hover {
+    background-color: black;
+    color: white;
+}
+
 main {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-input[type="text"] {
-    padding: 8px; /* Reduce padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px; /* Reduce font size */
-    width: 75px; /* Reduce width */
-    box-sizing: border-box;
-    margin-bottom: 5px; /* Reduce bottom margin */
-    margin-left: 10px; /* Add left margin to align with labels */
-}
-
-.employeeHours {
-    padding: 20px 20px 50px 50px;
-}
-
-.employeeHours label {
-    display: inline-block;
-    width: 150px; /* Adjust as needed */
-}
-
-.employeeHours input {
-    width: 100px; /* Adjust as needed */
-}
-
-#employeeTips {
-    padding: 20px 20px 20px 50px; /* top, right, bottom, left */
-
-}
-
-
-
-label {
-    display: inline-block; /* Make labels display as inline-block elements */
-    width: 150px; /* Set width to match input boxes */
-    margin-bottom: 5px; /* Reduce bottom margin */
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 section {
@@ -94,4 +71,8 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+h2 {
+    margin-bottom: 20px; /* Add margin at the bottom of the h2 */
 }

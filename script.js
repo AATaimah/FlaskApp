@@ -39,19 +39,21 @@ function calculateTotal() {
     // Calculate the total
     var total = (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hunnids * 100);
     var salesTax = Math.round(registeredTips * 0.25 / 5) * 5;
-    netTips = total - salesTax; // Assign netTips globally
+    netTips = total - salesTax ; // Assign netTips globally
 
     // Display the total
     document.getElementById('totalTips').innerHTML = "Total Tips: $" + total.toFixed(2);
     document.getElementById('salesTax').innerHTML = "Sales tax to set aside: $" + salesTax.toFixed(2);
     document.getElementById('distributedTips').innerHTML = "Tips to be distributed: $" + netTips.toFixed(2);
 
+    console.log('netTips:', netTips); 
+
     // Call the function to submit hours with the calculated netTips
     submitHours();
 }
 
 // Employee list
-var employees = ['Abu Omar', 'Abu Talal', 'Fadi', 'Dawood'];
+var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abdullah','Abu Yazan','Khatab',"Khader",'Mahmoud','Mostafa','Wael',"Monir",'Mohd A','Abood','Mohd F','Noor','Sara Eid','Weeam'];
 
 // Function to dynamically generate input fields for each employee
 function generateEmployeeInputs() {
@@ -71,6 +73,11 @@ function generateEmployeeInputs() {
         input.inputmode = 'numeric';
         div.appendChild(input);
 
+        // Add event listener here
+        input.addEventListener('change', function() {
+            calculateTotal(); // Recalculate everything on input change
+        });
+
         container.appendChild(div);
     });
 }
@@ -84,8 +91,16 @@ function submitHours() {
 
     employees.forEach(function (employee, index) {
         var input = document.getElementById('hours_' + index);
-        var hours = parseFloat(input.value) || 0;
-        hoursWorked.push({ employee: employee, hours: hours });
+        var inputValue = input.value.trim(); // Remove leading and trailing whitespaces
+        var hours = parseFloat(inputValue); // Parse the input value
+
+        // Check if the input value is a valid number less than 100
+        if (!isNaN(hours) && hours < 150) {
+            hoursWorked.push({ employee: employee, hours: hours });
+        } else {
+            // Handle invalid input (e.g., display an error message)
+            alert('Invalid input for hours:', inputValue);
+        }
     });
 
     // Calculate hours divided by 40 for each employee
@@ -105,22 +120,66 @@ function submitHours() {
     var ratio = Math.round(netTips / totalHoursDividedBy40/ 5) * 5;
     console.log(ratio);
 
-    var employeeDeservedTip = hoursWorked.map(function (employee) {
-        // Calculate the deserved tip for the current employee
-        var deservedTip = ratio * employee.hoursDividedBy40;
-    
+    var deservedTip = hoursWorked.map(function (employee) {
+
         // Return an object containing the employee's name and their deserved tip
-        return { 
-            employee: employee.employee, 
-            deservedTip: deservedTip
-        };
+        return { employee: employee.employee, deservedTip: Math.round(ratio * employee.hours / 40 /5) * 5 };
+
     });
 
-    console.log('netTips:', netTips);
-    console.log('totalHoursDividedBy40:', totalHoursDividedBy40);
+    // Summing up all the tips
+    var totalTips = deservedTip.reduce(function(acc, current) {
+        return acc + current.deservedTip;
+    }, 0);
 
-    console.log('ratio:', ratio);
+    var remainder = netTips - totalTips;
+
     
-    // Output the array of employeeDeservedTip to the console
-    console.log(employeeDeservedTip);
+
+
+    // Output the total sum of tips
+    console.log("Total sum of tips:", totalTips);
+
+    // Get the container element
+    var container = document.getElementById('employeeTips');
+
+    // Clear the container (optional)
+    container.innerHTML = ''; // This removes any previous content
+
+    // Create a table element
+    var table = document.createElement('table');
+    var headerRow = document.createElement('tr');
+    var headerEmployee = document.createElement('th');
+    var headerTip = document.createElement('th');
+
+    headerEmployee.textContent = 'Employee';
+    headerTip.textContent = 'Deserved Tip';
+
+    headerRow.appendChild(headerEmployee);
+    headerRow.appendChild(headerTip);
+    table.appendChild(headerRow);
+
+    // Loop through deservedTip and create table rows
+    deservedTip.forEach(function(employeeTip) {
+    var row = document.createElement('tr');
+    var cellEmployee = document.createElement('td');
+    var cellTip = document.createElement('td');
+
+    cellEmployee.textContent = employeeTip.employee;
+    cellTip.textContent = '$' + employeeTip.deservedTip.toFixed(2);
+
+    row.appendChild(cellEmployee);
+    row.appendChild(cellTip);
+    table.appendChild(row);
+    });
+
+    container.appendChild(table);
+    // Create an element for the remainder
+    var remainderElement = document.createElement('div');
+    remainderElement.textContent = "Remainder: $" + remainder.toFixed(2);
+    remainderElement.style.marginLeft = '2px'; // Add margin top to create space between table and remainder
+    remainderElement.style.fontWeight = 'bold'; // Make the remainder text bold
+
+    // Append the remainder element to the container
+    container.appendChild(remainderElement);
 }
