@@ -35,6 +35,26 @@ header {
     height: auto; /* Maintain aspect ratio */
 }
 
+.Button button {
+    margin: 10px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 20px;
+    position: fixed; /* Position the button relative to the viewport */
+    bottom: 50px; /* Distance from the bottom */
+    right: 50px; /* Distance from the right */
+}
+
+.Button button:hover {
+    background-color: black;
+    color: white;
+}
+
 .calculate {
     padding: 20px;
     text-align: left;

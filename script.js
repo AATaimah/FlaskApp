@@ -188,4 +188,11 @@ function submitHours() {
 
     // Append the remainder element to the container
     container.appendChild(remainderElement);
+
+}
+
+function saveAndRedirect() {
+
+    goToPage('index.html')
+
 }
