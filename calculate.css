@@ -17,16 +17,21 @@ header {
     text-align: center;
 }
 
-button {
+main .employeeHours .submit-button {
     margin: 10px;
     background-color: white;
     color: black;
     border: 2px solid black;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 10px 15px;
+    font-size: 12px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 20px; 
+}
+
+main .employeeHours .submit-button:hover {
+    background-color: black;
+    color: white;
 }
 
 
@@ -86,11 +91,6 @@ label {
     display: inline-block; /* Make labels display as inline-block elements */
     width: 150px; /* Set width to match input boxes */
     margin-bottom: 5px; /* Reduce bottom margin */
-}
-
-.submit-button {
-    margin-top: 20px;
-    padding: 5px 10px;
 }
 
 section {

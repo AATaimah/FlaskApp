@@ -6,6 +6,10 @@ function goBack() {
     window.history.back();
 }
 
+// Declare netTips variable globally
+var netTips;
+
+// Function to calculate total tips
 function calculateTotal() {
     // Regular expression to match only numbers
     var numberRegex = /^\d*\.?\d*$/;
@@ -35,42 +39,30 @@ function calculateTotal() {
     // Calculate the total
     var total = (fives * 5) + (tens * 10) + (twenties * 20) + (fifties * 50) + (hunnids * 100);
     var salesTax = Math.round(registeredTips * 0.25 / 5) * 5;
-    var netTips = total - salesTax;
+    netTips = total - salesTax; // Assign netTips globally
 
     // Display the total
     document.getElementById('totalTips').innerHTML = "Total Tips: $" + total.toFixed(2);
     document.getElementById('salesTax').innerHTML = "Sales tax to set aside: $" + salesTax.toFixed(2);
     document.getElementById('distributedTips').innerHTML = "Tips to be distributed: $" + netTips.toFixed(2);
+
+    // Call the function to submit hours with the calculated netTips
+    submitHours();
 }
 
 // Employee list
-var employees = ['Abu Omar', 'Abu Talal', 'Abu Mahmoud', 'Abu Yousef']
+var employees = ['Abu Omar', 'Abu Talal', 'Fadi', 'Dawood'];
 
 // Function to dynamically generate input fields for each employee
 function generateEmployeeInputs() {
     var container = document.querySelector('.employeeHours');
-    var columns = 3; // Number of columns
 
-    // Calculate number of rows needed
-    var rows = Math.ceil(employees.length / columns);
-
-    // Create columns
-    for (var i = 0; i < columns; i++) {
-        var column = document.createElement('div');
-        column.classList.add('column');
-        container.appendChild(column);
-    }
-
-    // Populate columns with employee inputs
     employees.forEach(function (employee, index) {
-        var columnIndex = index % columns; // Calculate columnIndex based on the remainder
-        var column = container.querySelectorAll('.column')[columnIndex];
-
         var div = document.createElement('div');
         div.classList.add('main');
 
         var label = document.createElement('label');
-        label.textContent = employee + ':';
+        label.textContent = employee + '\'s Hours :';
         div.appendChild(label);
 
         var input = document.createElement('input');
@@ -79,14 +71,14 @@ function generateEmployeeInputs() {
         input.inputmode = 'numeric';
         div.appendChild(input);
 
-        column.appendChild(div);
+        container.appendChild(div);
     });
 }
 
 // Call the function to generate input fields when the page loads
 generateEmployeeInputs();
 
-// Function to submit the hours worked by each employee
+// Function to submit hours and calculate deserved tips
 function submitHours() {
     var hoursWorked = [];
 
@@ -96,6 +88,39 @@ function submitHours() {
         hoursWorked.push({ employee: employee, hours: hours });
     });
 
-    // Do something with the hoursWorked array, such as sending it to the server
-    console.log(hoursWorked);
+    // Calculate hours divided by 40 for each employee
+    var hoursDividedBy40 = hoursWorked.map(function (employee) {
+        return { employee: employee.employee, hoursDividedBy40: employee.hours / 40 };
+    });
+
+    // Sum up all the values of hours divided by 40
+    var totalHoursDividedBy40 = hoursDividedBy40.reduce(function (total, current) {
+        return total + current.hoursDividedBy40;
+    }, 0);
+
+    // Output the array to the console
+    console.log('Hours divided by 40 for each employee:', hoursDividedBy40);
+    console.log('Sum hours divided by 40 for all employees:', totalHoursDividedBy40);
+
+    var ratio = Math.round(netTips / totalHoursDividedBy40/ 5) * 5;
+    console.log(ratio);
+
+    var employeeDeservedTip = hoursWorked.map(function (employee) {
+        // Calculate the deserved tip for the current employee
+        var deservedTip = ratio * employee.hoursDividedBy40;
+    
+        // Return an object containing the employee's name and their deserved tip
+        return { 
+            employee: employee.employee, 
+            deservedTip: deservedTip
+        };
+    });
+
+    console.log('netTips:', netTips);
+    console.log('totalHoursDividedBy40:', totalHoursDividedBy40);
+
+    console.log('ratio:', ratio);
+    
+    // Output the array of employeeDeservedTip to the console
+    console.log(employeeDeservedTip);
 }

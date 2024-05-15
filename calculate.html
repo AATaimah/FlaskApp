@@ -36,18 +36,22 @@
 
             <label for="registeredTips">Registered tips:</label>
             <input type="text" id="registeredTips" inputmode="numeric" oninput="calculateTotal()"><br><br>
+
+            <div id="totalTips"></div>
+            <div id="salesTax"></div>
+            <div id="distributedTips"></div>
             
         </div>
         
-        <div id="totalTips"></div>
-        <div id="salesTax"></div>
-        <div id="distributedTips"></div>
+        
 
         <div class="employeeHours">
 
+            <button class="submit-button" onclick="submitHours()">Submit</button>
+            
+
         </div>
 
-        <button class="submit-button" onclick="submitHours()">Submit</button>
         
     </main>
 
