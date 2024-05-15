@@ -11,8 +11,7 @@ var netTips;
 
 // Function to calculate total tips
 function calculateTotal() {
-    // Regular expression to match only numbers
-    var numberRegex = /^\d*\.?\d*$/;
+
 
     // Get the values entered into the input fields
     var fives = document.getElementById('fives').value;
@@ -22,11 +21,15 @@ function calculateTotal() {
     var hunnids = document.getElementById('hunnids').value;
     var registeredTips = document.getElementById('registeredTips').value;
 
-    // Validate input values
-    if (!numberRegex.test(fives) || !numberRegex.test(tens) || !numberRegex.test(twenties) || !numberRegex.test(fifties) || !numberRegex.test(hunnids) || !numberRegex.test(registeredTips)) {
-        alert("Please enter only numbers.");
-        return;
+    // Regular expression to match only digits
+    var digitRegex = /^\d+$/;
+
+    // Validate all input fields at once
+    if (!digitRegex.test(fives + tens + twenties + fifties + hunnids + registeredTips)) {
+        // Display error message or handle invalid input
+        console.error("One or more inputs contain invalid characters.");
     }
+
 
     // Convert input values to numbers
     fives = parseFloat(fives) || 0;
@@ -59,7 +62,19 @@ var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abdullah','Abu Yazan','
 function generateEmployeeInputs() {
     var container = document.querySelector('.employeeHours');
 
+    // Calculate number of columns based on number of employees
+    var numColumns = Math.ceil(employees.length / 6); // Change 6 to desired number of employees per column
+
+    for (var i = 0; i < numColumns; i++) {
+        var column = document.createElement('div');
+        column.classList.add('column');
+        container.appendChild(column);
+    }
+
     employees.forEach(function (employee, index) {
+        var columnIndex = Math.floor(index / 9); // Change 6 to desired number of employees per column
+        var column = container.querySelectorAll('.column')[columnIndex];
+
         var div = document.createElement('div');
         div.classList.add('main');
 
@@ -78,12 +93,13 @@ function generateEmployeeInputs() {
             calculateTotal(); // Recalculate everything on input change
         });
 
-        container.appendChild(div);
+        column.appendChild(div);
     });
 }
 
-// Call the function to generate input fields when the page loads
+// Call the function to generate employee inputs
 generateEmployeeInputs();
+
 
 // Function to submit hours and calculate deserved tips
 function submitHours() {
@@ -93,14 +109,13 @@ function submitHours() {
         var input = document.getElementById('hours_' + index);
         var inputValue = input.value.trim(); // Remove leading and trailing whitespaces
         var hours = parseFloat(inputValue); // Parse the input value
-
-        // Check if the input value is a valid number less than 100
         if (!isNaN(hours) && hours < 150) {
             hoursWorked.push({ employee: employee, hours: hours });
         } else {
-            // Handle invalid input (e.g., display an error message)
-            alert('Invalid input for hours:', inputValue);
+            alert("Invalid input")
         }
+
+
     });
 
     // Calculate hours divided by 40 for each employee

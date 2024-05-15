@@ -58,6 +58,14 @@ input[type="text"] {
 
 .employeeHours {
     padding: 20px 20px 50px 50px;
+    display: flex;
+    flex-wrap: wrap; /* Allow flex items to wrap to next row */
+    gap: 20px; /* Adjust gap between columns */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
 }
 
 .employeeHours label {
