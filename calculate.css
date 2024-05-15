@@ -78,7 +78,7 @@ input[type="text"] {
 }
 
 #employeeTips {
-    padding: 20px 20px 20px 50px; /* top, right, bottom, left */
+    padding: 20px 20px 50px 50px; /* top, right, bottom, left */
 
 }
 
@@ -102,4 +102,16 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+    .employeeHours {
+        padding: 20px 20px 50px 20px;
+
+    }
+    #employeeTips {
+        padding: 20px 20px 50px 20px;
+
+    }
+
 }
