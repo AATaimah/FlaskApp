@@ -21,15 +21,6 @@ function calculateTotal() {
     var hunnids = document.getElementById('hunnids').value;
     var registeredTips = document.getElementById('registeredTips').value;
 
-    // Regular expression to match only digits
-    var digitRegex = /^\d+$/;
-
-    // Validate all input fields at once
-    if (!digitRegex.test(fives + tens + twenties + fifties + hunnids + registeredTips)) {
-        // Display error message or handle invalid input
-        console.error("One or more inputs contain invalid characters.");
-    }
-
 
     // Convert input values to numbers
     fives = parseFloat(fives) || 0;
@@ -108,7 +99,7 @@ function submitHours() {
     employees.forEach(function (employee, index) {
         var input = document.getElementById('hours_' + index);
         var inputValue = input.value.trim(); // Remove leading and trailing whitespaces
-        var hours = parseFloat(inputValue); // Parse the input value
+        var hours = parseFloat(inputValue) || 0 ; // Parse the input value
         if (!isNaN(hours) && hours < 150) {
             hoursWorked.push({ employee: employee, hours: hours });
         } else {
