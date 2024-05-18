@@ -40,15 +40,19 @@ function calculateTotal() {
 
 function validateInputs() {
     var inputs = document.querySelectorAll('input[type="text"]');
-    var allFilled = true;
+    var allValid = true;
 
     inputs.forEach(function(input) {
-        if (!/^\d+$/.test(input.value.trim())) {
-            allFilled = false;
+        var value = input.value.trim();
+        if (value === '' || isNaN(value)) {
+            allValid = false;
         }
     });
 
-    document.getElementById('saveButton').disabled = !allFilled;
+    var saveButton = document.getElementById('saveButton');
+    saveButton.disabled = !allValid;
+
+    return allValid;
 }
 
 var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abdullah','Abu Yazan','Khatab',"Khader",'Mahmoud','Mostafa','Wael',"Monir",'Mohd A','Abood','Mohd F','Noor','Sara Eid','Weeam'];
@@ -91,6 +95,30 @@ function generateEmployeeInputs() {
 
 generateEmployeeInputs();
 
+function calculateDeservedTips(hoursWorked) {
+    var hoursDividedBy40 = hoursWorked.map(function (employee) {
+        return { employee: employee.employee, hoursDividedBy40: employee.hours / 40 };
+    });
+
+    var totalHoursDividedBy40 = hoursDividedBy40.reduce(function (total, current) {
+        return total + current.hoursDividedBy40;
+    }, 0);
+
+    var ratio = totalHoursDividedBy40 > 0 ? Math.round(netTips / totalHoursDividedBy40 / 5) * 5 : 0;
+
+    var deservedTip = hoursWorked.map(function (employee) {
+        return { employee: employee.employee, deservedTip: totalHoursDividedBy40 > 0 ? Math.round(ratio * employee.hours / 40 / 5) * 5 : 0 };
+    });
+
+    var totalTips = deservedTip.reduce(function(acc, current) {
+        return acc + current.deservedTip;
+    }, 0);
+
+    var remainder = netTips - totalTips;
+
+    return { deservedTip, remainder };
+}
+
 function submitHours() {
     var hoursWorked = [];
 
@@ -105,31 +133,9 @@ function submitHours() {
         }
     });
 
-    var hoursDividedBy40 = hoursWorked.map(function (employee) {
-        return { employee: employee.employee, hoursDividedBy40: employee.hours / 40 };
-    });
+    var { deservedTip, remainder } = calculateDeservedTips(hoursWorked);
 
-    var totalHoursDividedBy40 = hoursDividedBy40.reduce(function (total, current) {
-        return total + current.hoursDividedBy40;
-    }, 0);
-
-    console.log('Hours divided by 40 for each employee:', hoursDividedBy40);
-    console.log('Sum hours divided by 40 for all employees:', totalHoursDividedBy40);
-
-    var ratio = Math.round(netTips / totalHoursDividedBy40 / 5) * 5;
-    console.log(ratio);
-
-    var deservedTip = hoursWorked.map(function (employee) {
-        return { employee: employee.employee, deservedTip: Math.round(ratio * employee.hours / 40 / 5) * 5 };
-    });
-
-    var totalTips = deservedTip.reduce(function(acc, current) {
-        return acc + current.deservedTip;
-    }, 0);
-
-    var remainder = netTips - totalTips;
-
-    console.log("Total sum of tips:", totalTips);
+    console.log("Total sum of tips:", deservedTip.reduce((acc, current) => acc + current.deservedTip, 0) || 0);
 
     var container = document.getElementById('employeeTips');
     container.innerHTML = '';
@@ -152,7 +158,7 @@ function submitHours() {
         var cellTip = document.createElement('td');
 
         cellEmployee.textContent = employeeTip.employee;
-        cellTip.textContent = '$' + employeeTip.deservedTip.toFixed(2);
+        cellTip.textContent = '$' + (employeeTip.deservedTip || 0).toFixed(2);
 
         row.appendChild(cellEmployee);
         row.appendChild(cellTip);
@@ -169,19 +175,6 @@ function submitHours() {
     container.appendChild(remainderElement);
 }
 
-function validateInputs() {
-    var inputs = document.querySelectorAll('input[type="text"]');
-    var allValid = true;
-
-    inputs.forEach(function(input) {
-        if (!/^\d+$/.test(input.value.trim())) {
-            allValid = false;
-        }
-    });
-
-    var saveButton = document.getElementById('saveButton');
-    saveButton.disabled = !allValid;
-}
 
 function saveAndRedirect() {
     if (document.getElementById('saveButton').disabled) {
@@ -189,33 +182,42 @@ function saveAndRedirect() {
         return;
     }
 
-    var employeeData = [];
+    var hoursWorked = [];
+
     employees.forEach(function (employee, index) {
         var input = document.getElementById('hours_' + index);
         var inputValue = input.value.trim();
         var hours = parseFloat(inputValue) || 0;
+        if (!isNaN(hours) && hours < 150) {
+            hoursWorked.push({ employee: employee, hours: hours });
+        } else {
+            alert("Invalid input");
+        }
+    });
 
-        employeeData.push({ employee: employee, hours: hours });
+    var { deservedTip, remainder } = calculateDeservedTips(hoursWorked);
+
+    var employeeData = employees.map(function (employee, index) {
+        var hours = hoursWorked.find(hw => hw.employee === employee)?.hours || 0;
+        var deservedTipAmount = deservedTip.find(dt => dt.employee === employee)?.deservedTip || 0;
+        return { employee: employee, hours: hours, deservedTip: deservedTipAmount };
     });
 
     var tipsData = {
         totalTips: parseFloat(document.getElementById('totalTips').textContent.split('$')[1]),
         salesTax: parseFloat(document.getElementById('salesTax').textContent.split('$')[1]),
         netTips: parseFloat(document.getElementById('distributedTips').textContent.split('$')[1]),
-        remainder: parseFloat(document.getElementById('distributedTips').textContent.split('$')[1]) - parseFloat(document.getElementById('totalTips').textContent.split('$')[1]),
-        date: new Date().toLocaleDateString()
+        remainder: remainder,
+        date: new Date().toLocaleString()
     };
 
     console.log("Employee Data:", employeeData);
     console.log("Tips Data:", tipsData);
 
-
-    goToPage('index.html');
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     calculateTotal();
     validateInputs();
-
 });
-
