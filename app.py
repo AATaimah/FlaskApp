@@ -1,13 +1,11 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, send_from_directory, jsonify
 from pymongo import MongoClient
-from datetime import datetime
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 
 # Connect to MongoDB
 client = MongoClient('mongodb://localhost:27017/')
 db = client['BakerDB']
-
 
 @app.route('/')
 def serve_index():
@@ -16,15 +14,17 @@ def serve_index():
 @app.route('/saveData', methods=['POST'])
 def save_data():
     data = request.json
+    
+    # Extract employee data and tips data
     employee_data = data.get('employeeData')
     tips_data = data.get('tipsData')
     
-    if employee_data:
+    if employee_data and tips_data:
         db['employeeData'].insert_many(employee_data)
-    if tips_data:
         db['tipsData'].insert_one(tips_data)
-    
-    return 'Data saved successfully', 200
+        return jsonify({"message": "Data saved successfully"}), 200
+    else:
+        return jsonify({"error": "Invalid data"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

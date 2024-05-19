@@ -175,7 +175,6 @@ function submitHours() {
     container.appendChild(remainderElement);
 }
 
-
 function saveAndRedirect() {
     if (document.getElementById('saveButton').disabled) {
         alert("Please fill in all fields correctly.");
@@ -227,7 +226,7 @@ function saveAndRedirect() {
     .then(response => response.text())
     .then(data => {
         alert(data);
-        window.location.href = 'success.html'; // Redirect to a success page
+        goToPage('/');
     })
     .catch(error => {
         console.error('Error:', error);
@@ -235,8 +234,6 @@ function saveAndRedirect() {
     });
 
 }
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
     calculateTotal();
