@@ -14,17 +14,18 @@ def serve_index():
 @app.route('/saveData', methods=['POST'])
 def save_data():
     data = request.json
-    
-    # Extract employee data and tips data
+
     employee_data = data.get('employeeData')
     tips_data = data.get('tipsData')
-    
+
+    # Check if both employee data and tips data are present
     if employee_data and tips_data:
-        db['employeeData'].insert_many(employee_data)
+        db['employeeData'].insert_one(employee_data)
         db['tipsData'].insert_one(tips_data)
-        return jsonify({"message": "Data saved successfully"}), 200
+
+        return 'Data saved successfully', 200
     else:
-        return jsonify({"error": "Invalid data"}), 400
+        return 'Missing data', 400
 
 if __name__ == '__main__':
     app.run(debug=True)

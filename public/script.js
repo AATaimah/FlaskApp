@@ -196,10 +196,11 @@ function saveAndRedirect() {
 
     var { deservedTip, remainder } = calculateDeservedTips(hoursWorked);
 
-    var employeeData = employees.map(function (employee, index) {
+    var employeeData = {};
+        employees.forEach(function(employee) {
         var hours = hoursWorked.find(hw => hw.employee === employee)?.hours || 0;
         var deservedTipAmount = deservedTip.find(dt => dt.employee === employee)?.deservedTip || 0;
-        return { employee: employee, hours: hours, deservedTip: deservedTipAmount };
+        employeeData[employee] = { hours: hours, deservedTip: deservedTipAmount };
     });
 
     var tipsData = {
