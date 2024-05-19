@@ -214,7 +214,28 @@ function saveAndRedirect() {
     console.log("Employee Data:", employeeData);
     console.log("Tips Data:", tipsData);
 
+    fetch('/saveData', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            employeeData: employeeData,
+            tipsData: tipsData
+        })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        window.location.href = 'success.html'; // Redirect to a success page
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error saving data');
+    });
+
 }
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
