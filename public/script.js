@@ -236,7 +236,58 @@ function saveAndRedirect() {
 
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    calculateTotal();
-    validateInputs();
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to fetch and update employee data
+    function fetchEmployeeData() {
+        fetch('/api/employeeData')
+            .then(response => response.json())
+            .then(data => {
+                const employeeTableBody = document.querySelector('#employeeDataTable tbody');
+                employeeTableBody.innerHTML = ''; // Clear the existing data
+
+                data.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.name}</td>
+                        <td>${employee.hours}</td>
+                        <td>${employee.deservedTip}</td>
+                    `;
+                    employeeTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching employee data:', error));
+    }
+
+    // Function to fetch and update tips data
+    function fetchTipsData() {
+        fetch('/api/tipsData')
+            .then(response => response.json())
+            .then(data => {
+                const tipsTableBody = document.querySelector('#tipsDataTable tbody');
+                tipsTableBody.innerHTML = ''; // Clear the existing data
+
+                data.forEach(tip => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${tip.totalTips}</td>
+                        <td>${tip.salesTax}</td>
+                        <td>${tip.netTips}</td>
+                        <td>${tip.remainder}</td>
+                        <td>${tip.date}</td>
+                    `;
+                    tipsTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching tips data:', error));
+    }
+
+    // Fetch data initially
+    fetchEmployeeData();
+    fetchTipsData();
+
+    // Set an interval to fetch data periodically (e.g., every 10 seconds)
+    setInterval(() => {
+        fetchEmployeeData();
+        fetchTipsData();
+    }, 10000); // 10000 milliseconds = 10 seconds
 });
