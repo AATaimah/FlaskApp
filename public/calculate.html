@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Tips</title>
+    <link rel="stylesheet" href="calculate.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <h1>Calculate Tips</h1>
+        <button onclick="goBack()" class="logo-button">
+            <i class="fa-solid fa-house"></i>
+        </button>
+    </header>
+
+    <main>
+        <div class="calculate">
+            <label for="fives">Total number of 5s:</label>
+            <input type="text" id="fives" inputmode="numeric" oninput="validateInputs(); calculateTotal()" required><br><br>
+            
+            <label for="tens">Total number of 10s:</label>
+            <input type="text" id="tens" inputmode="numeric" oninput="validateInputs(); calculateTotal()" required><br><br>
+            
+            <label for="twenties">Total number of 20s:</label>
+            <input type="text" id="twenties" inputmode="numeric" oninput="validateInputs(); calculateTotal()" required><br><br>
+            
+            <label for="fifties">Total number of 50s:</label>
+            <input type="text" id="fifties" inputmode="numeric" oninput="validateInputs(); calculateTotal()" required><br><br>
+            
+            <label for="hunnids">Total number of 100s:</label>
+            <input type="text" id="hunnids" inputmode="numeric" oninput="validateInputs(); calculateTotal()" required><br><br>
+
+            <label for="registeredTips">Registered tips:</label>
+            <input type="text" id="registeredTips" inputmode="numeric" oninput="validateInputs(); calculateTotal()" required><br><br>
+
+            <div id="totalTips">Total Tips: $0.00</div>
+            <div id="salesTax">Sales tax to set aside: $0.00</div>
+            <div id="distributedTips">Tips to be distributed: $0.00</div>
+        </div>
+
+        <div class="employeeHours"></div>
+
+        <div id="employeeTips"></div>
+
+        <div class="Button">
+            <button id="saveButton" onclick="saveAndRedirect()" disabled>Save</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Anas Taimah. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
