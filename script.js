@@ -60,7 +60,7 @@ var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abdullah','Abu Yazan','
 
 function generateEmployeeInputs() {
     var container = document.querySelector('.employeeHours');
-    var numColumns = Math.ceil(employees.length / 6);
+    var numColumns = Math.ceil(employees.length / 7);
 
     for (var i = 0; i < numColumns; i++) {
         var column = document.createElement('div');
