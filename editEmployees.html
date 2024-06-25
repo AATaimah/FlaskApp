@@ -17,11 +17,23 @@
     </header>
 
     <main>
-        <h2>Edit Employees Portal <br>
-            Work In Progress...</h2>
-
+        <section>
+            <h2>Current Employees</h2>
+            <ul id="employee-list">
+                <!-- Employee list will be populated dynamically -->
+            </ul>
+        </section>
+        <section>
+            <h2>Add Employee</h2>
+            <input type="text" id="new-employee" placeholder="Enter employee name">
+            <button onclick="addEmployee()">Add Employee</button>
+        </section>
+        <section class="controls">
+            <button onclick="saveChanges()">Save Changes</button>
+            <button onclick="loadEmployees()">Load Employees</button>
+            <button onclick="resetEmployees()">Reset Employees</button>
+        </section>
     </main>
-
     <footer>
         <p>&copy; Anas Taimah. All Rights Reserved.</p>
     </footer>

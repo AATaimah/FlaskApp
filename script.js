@@ -176,67 +176,83 @@ function submitHours() {
     container.appendChild(remainderElement);
 }
 
-function saveAndRedirect() {
-    if (document.getElementById('saveButton').disabled) {
-        alert("Please fill in all fields correctly.");
-        return;
-    }
 
-    var hoursWorked = [];
+document.addEventListener('DOMContentLoaded', function() {
+    const addBtn = document.getElementById('add-btn');
+    const removeBtn = document.getElementById('remove-btn');
+    const employeeList = document.getElementById('employee-list');
+    let selectedEmployee = null;
+    let dragged;
 
-    employees.forEach(function (employee, index) {
-        var input = document.getElementById('hours_' + index);
-        var inputValue = input.value.trim();
-        var hours = parseFloat(inputValue) || 0;
-        if (!isNaN(hours) && hours < 150) {
-            hoursWorked.push({ employee: employee, hours: hours });
-        } else {
-            alert("Invalid input");
+    // Function to add a new employee
+    addBtn.addEventListener('click', function() {
+        const newEmployee = prompt('Enter the name of the new employee:');
+        if (newEmployee) {
+            const li = document.createElement('li');
+            li.textContent = newEmployee;
+            li.draggable = true; // Enable draggable
+            employeeList.appendChild(li);
+            addDragDropListeners(li);
         }
     });
 
-    var { deservedTip, remainder } = calculateDeservedTips(hoursWorked);
-
-    var employeeData = {};
-        employees.forEach(function(employee) {
-        var hours = hoursWorked.find(hw => hw.employee === employee)?.hours || 0;
-        var deservedTipAmount = deservedTip.find(dt => dt.employee === employee)?.deservedTip || 0;
-        employeeData[employee] = { hours: hours, deservedTip: deservedTipAmount };
+    // Function to remove the selected employee
+    removeBtn.addEventListener('click', function() {
+        if (selectedEmployee) {
+            selectedEmployee.remove();
+            selectedEmployee = null;
+        }
     });
 
-    var tipsData = {
-        totalTips: parseFloat(document.getElementById('totalTips').textContent.split('$')[1]),
-        salesTax: parseFloat(document.getElementById('salesTax').textContent.split('$')[1]),
-        netTips: parseFloat(document.getElementById('distributedTips').textContent.split('$')[1]),
-        remainder: remainder,
-        date: new Date().toLocaleString()
-    };
+    // Function to handle drag start
+    function dragStart(event) {
+        dragged = event.target;
+        event.dataTransfer.setData('text/plain', dragged.textContent);
+    }
 
-    console.log("Employee Data:", employeeData);
-    console.log("Tips Data:", tipsData);
+    // Function to handle drag over
+    function dragOver(event) {
+        event.preventDefault();
+    }
 
-    fetch('/saveData', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            employeeData: employeeData,
-            tipsData: tipsData
-        })
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert(data);
-        goToPage('/');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error saving data');
+    // Function to handle drop
+    function drop(event) {
+        event.preventDefault();
+        const textData = event.dataTransfer.getData('text/plain');
+        const target = event.target.closest('li');
+        if (target) {
+            const dropped = document.createElement('li');
+            dropped.textContent = textData;
+            employeeList.insertBefore(dropped, target);
+            dragged.remove();
+            addDragDropListeners(dropped);
+        }
+    }
+
+    // Function to add drag and drop listeners to an element
+    function addDragDropListeners(element) {
+        element.draggable = true;
+        element.addEventListener('dragstart', dragStart);
+        element.addEventListener('dragover', dragOver);
+        element.addEventListener('drop', drop);
+    }
+
+    // Event listener to select an employee
+    employeeList.addEventListener('click', function(event) {
+        const li = event.target.closest('li');
+        if (li && employeeList.contains(li)) {
+            if (selectedEmployee) {
+                selectedEmployee.classList.remove('selected');
+            }
+            selectedEmployee = li;
+            selectedEmployee.classList.add('selected');
+        }
     });
 
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-   
+    // Add drag and drop listeners to existing employees
+    const employees = document.querySelectorAll('#employee-list li');
+    employees.forEach(employee => {
+        addDragDropListeners(employee);
+    });
 });
+
