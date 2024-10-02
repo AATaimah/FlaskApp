@@ -56,7 +56,7 @@ function validateInputs() {
 }
 
 var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abdullah','Abu Yazan',"Khader",'Rami','Mahmoud','Mahfouz','Sultan','Mostafa',
-'Mohd A','Mohd F','Ahmed','Noor','Sara Eid','Weeam'];
+'Mohd A','Mohd F','Ahmed','Noor','Sara Eid','Weeam','Jood'];
 
 function generateEmployeeInputs() {
     var container = document.querySelector('.employeeHours');
