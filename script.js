@@ -55,8 +55,8 @@ function validateInputs() {
     return allValid;
 }
 
-var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abdullah','Abu Yazan',"Khader",'Rami','Mahmoud','Mahfouz','Sultan','Mostafa',
-'Mohd A','Mohd F','Ahmed','Noor','Sara Eid','Weeam','Jood'];
+var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abu Yazan',"Khader",'Rami','Mahmoud','Mahfouz',
+'Sultan','Ayman','Tarek','Mohd F','Weeam','Noor','Sara Eid','Jude'];
 
 function generateEmployeeInputs() {
     var container = document.querySelector('.employeeHours');
