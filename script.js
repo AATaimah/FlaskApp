@@ -55,7 +55,7 @@ function validateInputs() {
     return allValid;
 }
 
-var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abu Yazan',"Khader",'Rami','M. Alnaqlah',
+var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abu Yazan',"Khader",'Rami','M. Al Naqlah',
 'Sultan','Ayman','Tarek','Mohd F','Ahmed','Yazan','Haidy','Weeam','Noor','Sara Eid','Jude'];
 
 function generateEmployeeInputs() {

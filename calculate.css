@@ -89,15 +89,6 @@ input[type="text"] {
     flex-direction: column;
 }
 
-.employeeHours label {
-    display: inline-block;
-    width: 150px; /* Adjust as needed */
-}
-
-.employeeHours input {
-    width: 100px; /* Adjust as needed */
-}
-
 #employeeTips {
     padding: 20px 20px 50px 50px; /* top, right, bottom, left */
 
@@ -123,16 +114,4 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-}
-
-@media only screen and (max-width: 1024px) {
-    .employeeHours {
-        padding: 20px 20px 50px 20px;
-
-    }
-    #employeeTips {
-        padding: 20px 20px 50px 20px;
-
-    }
-
 }
