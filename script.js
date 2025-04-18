@@ -55,8 +55,8 @@ function validateInputs() {
     return allValid;
 }
 
-var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abu Yazan',"Khader",'Rami','Mahmoud','Mahfouz',
-'Sultan','Ayman','Tarek','Mohd F','Weeam','Noor','Sara Eid','Jude'];
+var employees = ['Abu Omar','Abu Talal','Fadi','Dawood','Abu Yazan',"Khader",'Rami','M. Al Naqlah',
+'Sultan','Ayman','Tarek','Mohd F','Ahmed','Yazan','Haidy','Weeam','Noor','Sara Eid','Jude'];
 
 function generateEmployeeInputs() {
     var container = document.querySelector('.employeeHours');
@@ -240,3 +240,26 @@ function saveAndRedirect() {
 document.addEventListener('DOMContentLoaded', function () {
    
 });
+
+function saveEmployeeData() {
+    const employees = [
+        { name: 'Anas Taimah' },
+        { name: 'Omar' },
+        // Add more employees as needed
+    ];
+
+    fetch('/api/employees', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(employees) // Send the employees array to the server
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Employee data saved:', data);
+    })
+    .catch(error => {
+        console.error('Error saving employee data:', error);
+    });
+}
